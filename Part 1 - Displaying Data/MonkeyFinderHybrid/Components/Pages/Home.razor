@@ -1,7 +1,33 @@
 ﻿@page "/"
+@inject MonkeyService monkeyService
 
-<p>This demonstrates how to display data</p>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Monkey Name</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var monkey in monkeys)
+            {
+                <tr>
+                    <td>@monkey.Name</td>
+                    <td>@monkey.Location</td>
+                    <td><img src="@monkey.Image" alt="@monkey.Name" style="width:100px;height:auto;" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @code {
+    private List<Monkey>? monkeys = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        monkeys = await monkeyService.GetMonkeysAsync();
+    }
 
 }
