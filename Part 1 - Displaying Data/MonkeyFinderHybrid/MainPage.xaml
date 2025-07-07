@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:MonkeyFinderHybrid.Components"  
              x:Class="MonkeyFinderHybrid.MainPage">  
 
-    <BlazorWebView x:Name="blazorWebView"  
+    <BlazorWebView x:Name="BlazorWebView"  
             HostPage="wwwroot/index.html">  
         <BlazorWebView.RootComponents>  
             <RootComponent Selector="#app"  
