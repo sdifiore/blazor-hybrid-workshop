@@ -1,7 +1,38 @@
 ﻿@page "/"
 
-<p>This demonstrates how to display data</p>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var monkey in _monkeys)
+            {
+                <tr>
+                    <td>
+                        <img src="@monkey.Image" alt="@monkey.Name" style="width: 50px; height: 50px;"/>
+                    </td>
+                    <td>
+                        <strong>@monkey.Name</strong>
+                        <p>@monkey.Location</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @code {
-    
+    private List<Monkey> _monkeys = new();
+
+    protected override void OnInitialized()
+    {
+        _monkeys.Add(new Monkey { Name = "Baboon", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/baboon.jpg", Location = "Africa and Asia"});
+        _monkeys.Add(new Monkey { Name = "Capuchin Monkey", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/capuchin.jpg", Location = "Central and South America"});
+        _monkeys.Add(new Monkey { Name = "Red-shanked douc", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg", Location = "Vietnam"});
+    }
+
 }
