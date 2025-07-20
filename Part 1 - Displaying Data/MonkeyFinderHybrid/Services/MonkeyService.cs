@@ -46,4 +46,11 @@ public class MonkeyService
         monkeyList.Add(monkey);
         return monkeyList;
     }
+
+    public Monkey? FindMonkeyByName(string name)
+    {
+        var monkey = monkeyList.FirstOrDefault(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+        return monkey is null ? throw new ArgumentNullException(nameof(name), "Monkey name cannot be null") : monkey;
+    }
 }
