@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace MonkeyFinderHybrid;
 
@@ -15,6 +16,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddFluentUIComponents();
         builder.Services.AddSingleton<MonkeyService>();
 
 #if DEBUG

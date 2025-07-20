@@ -11,11 +11,11 @@ This MonkeyFinderHybrid solution contains 1 project:
 * **MonkeyFinderHybrid** - The main Blazor Hybrid project that targets Android, iOS, macOS, and Windows. It includes all scaffolding for the app including Models, Components, Services and wwwroot folders.
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/Solution-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/Solution-light.png">
-        <img title="The MonkeyFinderHybrid solution folder structure shown in Visual Studio Solution Explorer" alt="The MonkeyFinderHybrid solution folder structure shown in Visual Studio Solution Explorer" src="../Art/Solution-light.png">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/Solution-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/Solution-light.png">
+				<img title="The MonkeyFinderHybrid solution folder structure shown in Visual Studio Solution Explorer" alt="The MonkeyFinderHybrid solution folder structure shown in Visual Studio Solution Explorer" src="../Art/Solution-light.png">
+		</picture>
 </p>
 
 The **MonkeyFinderHybrid** project also has blank code files and Razor pages that we will implement and use during the workshop. All of the code that we modify will be in this project for the workshop.
@@ -27,11 +27,11 @@ All projects have the required NuGet packages already installed, so there will b
 Right-click on the solution and select **Restore NuGet packages...**
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/RestoreNuGets-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/RestoreNuGets-light.png">
-        <img title="Restore NuGet packages for the MonkeyFinderHybrid solution" alt="The MonkeyFinderHybrid solution shown in the Visual Studio Solution Explorer with the context menu open. A red arrow is pointing to the Restore NuGet Packages option" src="../Art/RestoreNuGets-light.png">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/RestoreNuGets-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/RestoreNuGets-light.png">
+				<img title="Restore NuGet packages for the MonkeyFinderHybrid solution" alt="The MonkeyFinderHybrid solution shown in the Visual Studio Solution Explorer with the context menu open. A red arrow is pointing to the Restore NuGet Packages option" src="../Art/RestoreNuGets-light.png">
+		</picture>
 </p>
 
 If you prefer to use the command-line, or you use VS Code, run `dotnet restore` from a terminal window in the folder where the project is located on disk.
@@ -43,37 +43,37 @@ Each part has its own starting point project, that will have all the NuGets for 
 We will be downloading details about the monkeys we find and therefore we will need a class to represent a monkey.
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/Convert-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/Convert-light.png">
-        <img title="Converting JSON to C# classes with json2csharp" alt="A screenshot of json2csharp.com with on the left side our raw json content containing monkey data. On the right side a C# model has been generated for this data." src="../Art/Convert-light.png" width="600px;">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/Convert-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/Convert-light.png">
+				<img title="Converting JSON to C# classes with json2csharp" alt="A screenshot of json2csharp.com with on the left side our raw json content containing monkey data. On the right side a C# model has been generated for this data." src="../Art/Convert-light.png" width="600px;">
+		</picture>
 </p>
 
 We can easily convert our JSON file located at [montemagno.com/monkeys.json](https://montemagno.com/monkeys.json) by using [json2csharp.com](https://json2csharp.com) and pasting the raw JSON into json2csharp to generate our C# classes. From the resulting C# code, copy all the properties in there and go back to Visual Studio.
 
 1. With the **MonkeyFinderHybrid** solution still opened in Visual Studio, go to the **Model/Monkey.cs** file and paste the properties inside the `Monkey` class that is already there.
 
-    If you copied the whole class that's fine too, just ensure that you rename `Root` to `Monkey` and make the namespace `namespace MonkeyFinderHybrid.Model;` in the top of the file.
+		If you copied the whole class that's fine too, just ensure that you rename `Root` to `Monkey` and make the namespace `namespace MonkeyFinderHybrid.Model;` in the top of the file.
 
 1. Visual Studio will show us some warnings because the `string` properties can be null and we don't want that for our project. Let's initialize them with a default value of `string.Empty`.
 
-    The end result will look like this:
+		The end result will look like this:
 
-    ```csharp
-    namespace MonkeyFinderHybrid.Model;
+		```csharp
+		namespace MonkeyFinderHybrid.Model;
 
-    public class Monkey
-    {        
-        public string Name { get; set; } = string.Empty;
-        public string Location { get; set; } = string.Empty;
-        public string Details { get; set; } = string.Empty;
-        public string Image { get; set; } = string.Empty;
-        public int Population { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-    }
-    ```
+		public class Monkey
+		{        
+				public string Name { get; set; } = string.Empty;
+				public string Location { get; set; } = string.Empty;
+				public string Details { get; set; } = string.Empty;
+				public string Image { get; set; } = string.Empty;
+				public int Population { get; set; }
+				public double Latitude { get; set; }
+				public double Longitude { get; set; }
+		}
+		```
 
 Additionally, because we will be using `System.Text.Json` to deserialize the data, we will want to add a `MonkeyContext` that will dynamically generate code for better performance. The following code will enable this and we will use it in the future.
 
@@ -105,17 +105,17 @@ In the `@code` section of **Home.razor**, add the following:
 
 ```csharp
 @code {
-    private List<Monkey> monkeys = new();
+		private List<Monkey> monkeys = new();
 
-    protected override async Task OnInitializedAsync()
-    {     
-        // Add some monkeys manually
-        monkeys.Add(new Monkey { Name = "Baboon", Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/baboon.jpg", Location="Africa and Asia" });
+		protected override async Task OnInitializedAsync()
+		{     
+				// Add some monkeys manually
+				monkeys.Add(new Monkey { Name = "Baboon", Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/baboon.jpg", Location="Africa and Asia" });
 
-        monkeys.Add(new Monkey { Name = "Capuchin Monkey", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/capuchin.jpg", Location = "Central and South America" });
+				monkeys.Add(new Monkey { Name = "Capuchin Monkey", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/capuchin.jpg", Location = "Central and South America" });
 
-        monkeys.Add(new Monkey { Name = "Red-shanked douc", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg", Location = "Vietnam" }); 
-    }
+				monkeys.Add(new Monkey { Name = "Red-shanked douc", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg", Location = "Vietnam" }); 
+		}
 }
 ```
 
@@ -125,29 +125,29 @@ Add the following into the **Home.razor**, above the `@code` block, make sure th
 
 ```html
 <div>
-    <p>This demonstrates how to display data</p>
-  
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Monkey</th>
-                <th>Location</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var monkey in monkeys)
-            {
-            <tr>
-                <td>
-                    <img src='@monkey.Image' width="100" height="100" />
-                </td>
-                <td>@monkey.Name</td>
-                <td>@monkey.Location</td>
-            </tr>
-            }
-        </tbody>
-    </table>  
+		<p>This demonstrates how to display data</p>
+	
+		<table class="table">
+				<thead>
+						<tr>
+								<th>Image</th>
+								<th>Monkey</th>
+								<th>Location</th>
+						</tr>
+				</thead>
+				<tbody>
+						@foreach (var monkey in monkeys)
+						{
+						<tr>
+								<td>
+										<img src='@monkey.Image' width="100" height="100" />
+								</td>
+								<td>@monkey.Name</td>
+								<td>@monkey.Location</td>
+						</tr>
+						}
+				</tbody>
+		</table>  
 </div>
 ```
 
@@ -167,11 +167,11 @@ If you are running on Windows, deploying our project to typically has the fastes
 1. In Visual Studio, set the Windows app as the startup project by selecting the drop down in the debug menu (the down arrow next to the green play button) and changing the `Framework`. You can see this in the screenshot below.
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/SelectFramework-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/SelectFramework-light.png">
-        <img title="Visual Studio debug dropdown showing multiple frameworks" alt="Visual Studio debug dropdown showing multiple frameworks. The Windows target has been selected." src="../Art/SelectFramework-light.png">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/SelectFramework-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/SelectFramework-light.png">
+				<img title="Visual Studio debug dropdown showing multiple frameworks" alt="Visual Studio debug dropdown showing multiple frameworks. The Windows target has been selected." src="../Art/SelectFramework-light.png">
+		</picture>
 </p>
 
 1. To start a debugging session and run the application, click the "Debug" (the green play button) button or go to Tools -> Start Debugging
@@ -184,11 +184,11 @@ If you are running on Windows, deploying our project to typically has the fastes
 In VS Code, when you have the .NET MAUI extension installed, you will see an icon with curly braces in the bottom bar. If you click that, you will see the menu as shown in the screenshot below.
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/VSCodeDebugMenu-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/VSCodeDebugMenu-light.png">
-        <img title="Debug menu in VS Code" alt="Partial screenshot of the VS Code bottom bar which shows the expanded .NET MAUI debugging menu in the bottom bar" src="../Art/VSCodeDebugMenu-light.png">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/VSCodeDebugMenu-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/VSCodeDebugMenu-light.png">
+				<img title="Debug menu in VS Code" alt="Partial screenshot of the VS Code bottom bar which shows the expanded .NET MAUI debugging menu in the bottom bar" src="../Art/VSCodeDebugMenu-light.png">
+		</picture>
 </p>
 
 Here you can select the debugging target, the startup project and can see the active file context. For easier access, click one of the pins behind an option to pin it to the bottom bar. If you're running on a Mac, you probably want to deploy to macOS for the fastest development loop.
@@ -196,11 +196,11 @@ Here you can select the debugging target, the startup project and can see the ac
 Running the app will result in a list of three monkeys, below you can see the result when running the app on Android:
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/CodedMonkeys-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/CodedMonkeys-light.png">
-        <img title="App running on Android showing a list with 3 monkeys" alt="App running on Android showing a list with 3 monkeys" src="../Art/CodedMonkeys-light.png" width="300px;">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/CodedMonkeys-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/CodedMonkeys-light.png">
+				<img title="App running on Android showing a list with 3 monkeys" alt="App running on Android showing a list with 3 monkeys" src="../Art/CodedMonkeys-light.png" width="300px;">
+		</picture>
 </p>
 
 Let's take this a step further and load the monkeys list using a service from the internet.
@@ -211,61 +211,61 @@ We are ready to create a method that will retrieve the monkey data from the inte
 
 1. Inside of the **MonkeyService.cs**, let's add a new method to get all monkeys:
 
-    ```csharp
-    private List<Monkey> monkeyList = new();
+		```csharp
+		private List<Monkey> monkeyList = new();
 
-    public async Task<List<Monkey>> GetMonkeys()
-    {
-        return monkeyList;
-    }
-    ```
+		public async Task<List<Monkey>> GetMonkeys()
+		{
+				return monkeyList;
+		}
+		```
 
-    Right now, the method simply creates a new list of `Monkey` and returns it. We can now fill in the method use `HttpClient` to pull down a JSON file, parse it, cache it, and return it.
+		Right now, the method simply creates a new list of `Monkey` and returns it. We can now fill in the method use `HttpClient` to pull down a JSON file, parse it, cache it, and return it.
 
 1. Let's get access to an `HttpClient` by added into the contructor for the `MonkeyService`.
 
-    ```csharp
-    private readonly HttpClient httpClient;
-    
-    public MonkeyService()
-    {
-        httpClient = new HttpClient();
-    }
-    ```
+		```csharp
+		private readonly HttpClient httpClient;
+		
+		public MonkeyService()
+		{
+				httpClient = new HttpClient();
+		}
+		```
 
-    Blazor Hybrid (or rather .NET MAUI) includes dependency injection similar to ASP.NET Core. We will register this service and dependencies soon. If you have worked with ASP.NET before, this all should look very familiar.
+		Blazor Hybrid (or rather .NET MAUI) includes dependency injection similar to ASP.NET Core. We will register this service and dependencies soon. If you have worked with ASP.NET before, this all should look very familiar.
 
 1. Let's check to see if we have any monkeys in the list already and return it if so by filling in the `GetMonkeys()` method:
 
-    ```csharp
-    if (monkeyList.Count > 0)
-    {
-        return monkeyList;
-    }
-    ```
+		```csharp
+		if (monkeyList.Count > 0)
+		{
+				return monkeyList;
+		}
+		```
 
-    This way we will cache our already retrieved monkeys. If we have retrieved the data from remote before, this list will still have values and be returned immediately. In real-world scenarios you will probably want to implement ways to force a refresh of the data, either manually or by checking to see if the data might be outdated. Additionally, this caching only works for the duration of the app running. Whenever the app is closed, this cache will be cleared. Depending on your needs, you might want to consider caching more persistent. For this workshop, this is out of scope.
+		This way we will cache our already retrieved monkeys. If we have retrieved the data from remote before, this list will still have values and be returned immediately. In real-world scenarios you will probably want to implement ways to force a refresh of the data, either manually or by checking to see if the data might be outdated. Additionally, this caching only works for the duration of the app running. Whenever the app is closed, this cache will be cleared. Depending on your needs, you might want to consider caching more persistent. For this workshop, this is out of scope.
 
 1. Just below the piece of code from the previous step, lets use the `HttpClient` to make a web request and parse it using the built-in `System.Text.Json` deserialization.
 
-    ```csharp
-        var response = await httpClient.GetAsync("https://www.montemagno.com/monkeys.json");
-        if (response.IsSuccessStatusCode)
-        {
-            var resultMonkeys = await response.Content.ReadFromJsonAsync(MonkeyContext.Default.ListMonkey);
+		```csharp
+				var response = await httpClient.GetAsync("https://www.montemagno.com/monkeys.json");
+				if (response.IsSuccessStatusCode)
+				{
+						var resultMonkeys = await response.Content.ReadFromJsonAsync(MonkeyContext.Default.ListMonkey);
 
-            if (resultMonkeys is not null)
-            {
-                monkeyList = resultMonkeys;
-            }
-        }
-    ```
+						if (resultMonkeys is not null)
+						{
+								monkeyList = resultMonkeys;
+						}
+				}
+		```
 
 1. Add the following using directive at the top of the file to access the `ReadFromJsonAsync()` extension method:
 
-    ```csharp
-    using System.Net.Http.Json;
-    ```
+		```csharp
+		using System.Net.Http.Json;
+		```
 
 #### No Internet? No Problem!
 
@@ -304,22 +304,22 @@ We now can update our **Home.razor** to call our new monkey service and expose t
 
 1. In the **Home.razor**, let's inject the `MonkeyService` at the top of the file:
 
-    ```html
-    @inject MonkeyService monkeyService
-    ```
+		```html
+		@inject MonkeyService monkeyService
+		```
 
 1. Then in the `@code` section, let's update the code to use the Service instead of the manual list:
 
-    ```csharp
-    private List<Monkey> monkeys = new();
+		```csharp
+		private List<Monkey> monkeys = new();
 
-    // OnInitializedAsync is a built-in lifecycle event that is called when this page is initialized
-    protected override async Task OnInitializedAsync()
-    {
-        // Load monkeys from MonkeyService
-        monkeys = await monkeyService.GetMonkeys();
-    } 
-    ```
+		// OnInitializedAsync is a built-in lifecycle event that is called when this page is initialized
+		protected override async Task OnInitializedAsync()
+		{
+				// Load monkeys from MonkeyService
+				monkeys = await monkeyService.GetMonkeys();
+		} 
+		```
 
 Our main method for getting data is now complete! Let's move on to making the list of monkeys better looking.
 
@@ -328,11 +328,11 @@ Our main method for getting data is now complete! Let's move on to making the li
 It is now time to build the .NET MAUI Blazor Hybrid user interface in **Home.razor**. Our end result is to build a page that looks like this:
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="../Art/FinalUI-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="../Art/FinalUI-light.png">
-        <img title="Android screenshot with the end result of our monkeys list" alt="A screenshot of the Android emulator which shows our project running and a list of monkeys on screen" src="../Art/FinalUI-light.png" width="300px;">
-    </picture>
+		<picture>
+				<source media="(prefers-color-scheme: dark)" srcset="../Art/FinalUI-dark.png">
+				<source media="(prefers-color-scheme: light)" srcset="../Art/FinalUI-light.png">
+				<img title="Android screenshot with the end result of our monkeys list" alt="A screenshot of the Android emulator which shows our project running and a list of monkeys on screen" src="../Art/FinalUI-light.png" width="300px;">
+		</picture>
 </p>
 
 In **Home.razor**, we will update the UI to use a list and display the `Image` on the left and the `Name` and `Location` on the right. 
@@ -342,22 +342,22 @@ In the existing `<div>` that we added earlier to **Home.razor**, replace the exi
 ```html
 @if (monkeys is null)
 {
-    <p><em>Loading...</em></p>
+		<p><em>Loading...</em></p>
 }
 else
 {
-    <ul class="card-list">
-        @foreach (var monkey in monkeys)
-        {
-            <li class="card-item">
-                <img class="card-image" src="@monkey.Image">
-                <div class="card-content">
-                    <h2>@monkey.Name</h2>
-                    <p>@monkey.Location</p>
-                </div>
-            </li>
-        }
-    </ul>
+		<ul class="card-list">
+				@foreach (var monkey in monkeys)
+				{
+						<li class="card-item">
+								<img class="card-image" src="@monkey.Image">
+								<div class="card-content">
+										<h2>@monkey.Name</h2>
+										<p>@monkey.Location</p>
+								</div>
+						</li>
+				}
+		</ul>
 }
 ```
 
@@ -374,12 +374,12 @@ If loading the data goes too fast, add some artificial delay to your code so you
 ```csharp
 protected override async Task OnInitializedAsync()
 {
-    // This was added
-    // Simulate asynchronous loading to demonstrate a loading indicator
-    await Task.Delay(500);
+		// This was added
+		// Simulate asynchronous loading to demonstrate a loading indicator
+		await Task.Delay(500);
 
-    // Load monkeys from MonkeyService
-    monkeys = await monkeyService.GetMonkeys();
+		// Load monkeys from MonkeyService
+		monkeys = await monkeyService.GetMonkeys();
 }
 ```
 
@@ -387,7 +387,7 @@ protected override async Task OnInitializedAsync()
 
 1. In Visual Studio (Code), set the iOS, Android, macOS, or Windows project as the startup project, you choose whichever you like!
 
-    For quick iterations it is usually fastest to deploy to Windows when developing on Windows. Same goes for macOS. Depending on your primary target platforms, you do of course want to test on those regularly as well.
+		For quick iterations it is usually fastest to deploy to Windows when developing on Windows. Same goes for macOS. Depending on your primary target platforms, you do of course want to test on those regularly as well.
 
 2. After that, click "Start Debugging". When the application starts you will see the page load monkey data from the internet!
 

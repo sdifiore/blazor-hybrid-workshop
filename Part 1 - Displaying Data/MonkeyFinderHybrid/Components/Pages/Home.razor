@@ -1,38 +1,64 @@
 ﻿@page "/"
+@inject MonkeyService monkeyService
+@inject IDialogService DialogService
 
 <div>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Location</th>
-            </tr>
-        </thead>
-        <tbody>
+    <button class="button-yellow" @onclick="AddMonkey"> Add New Monkey</button>
+
+    @if (_monkeys is null)
+    {
+        <p>Loading monkeys...</p>
+    }
+
+    else
+    {
+        <ul class="card-list">
             @foreach (var monkey in _monkeys)
             {
-                <tr>
-                    <td>
-                        <img src="@monkey.Image" alt="@monkey.Name" style="width: 50px; height: 50px;"/>
-                    </td>
-                    <td>
-                        <strong>@monkey.Name</strong>
+                <li class="card-item">
+                    <img class="card-image" src="@monkey.Image">
+                    <div class="card-content">
+                        <h2>@monkey.Name</h2>
                         <p>@monkey.Location</p>
-                    </td>
-                </tr>
+                    </div>
+                </li>
             }
-        </tbody>
-    </table>
+        </ul>
+    }
 </div>
 
 @code {
     private List<Monkey> _monkeys = new();
+    private Monkey DialogData { get; set; } = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _monkeys.Add(new Monkey { Name = "Baboon", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/baboon.jpg", Location = "Africa and Asia"});
-        _monkeys.Add(new Monkey { Name = "Capuchin Monkey", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/capuchin.jpg", Location = "Central and South America"});
-        _monkeys.Add(new Monkey { Name = "Red-shanked douc", Image = "https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg", Location = "Vietnam"});
+        // Load monkeys from MonkeyService
+        _monkeys = await monkeyService.GetMonkeys();
     }
 
+    private async Task AddMonkey()
+    {
+        // MAUI Debug console
+        Debug.WriteLine("Add Monkey");
+
+
+        // Create a new instance of DialogData to allow the user to cancel the update
+        var data = new Monkey();
+        var dialog = await DialogService.ShowDialogAsync<SimpleCustomizedDialog>(data, new DialogParameters
+        {
+            Title = "Add New Monkey",
+            PreventDismissOnOverlayClick = true,
+            PreventScroll = true
+        });
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled && result.Data is not null)
+        {
+            DialogData = (Monkey)result.Data;
+            monkeyService.AddMonkey(DialogData);
+            _monkeys = await monkeyService.GetMonkeys();
+        }
+    }
 }
