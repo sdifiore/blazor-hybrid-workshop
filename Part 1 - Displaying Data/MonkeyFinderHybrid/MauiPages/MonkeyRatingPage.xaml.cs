@@ -10,6 +10,6 @@ public partial class MonkeyRatingPage : ContentPage
     private void Button_Clicked(object sender, EventArgs e)
     {
         Debug.WriteLine($"Monkey rating: {rating.Value}");
-        Navigation.PopModalAsync();
+        Navigation.PopAsync();
     }
 }

@@ -16,7 +16,5 @@
 				
 				<alohakit:Rating x:Name="rating" />
 
-				<Button Text="Close page" Clicked="Button_Clicked" />
-
 		</VerticalStackLayout>
 </ContentPage>
