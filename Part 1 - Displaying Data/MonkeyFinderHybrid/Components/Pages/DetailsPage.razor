@@ -38,8 +38,6 @@
 
     private void AddRating()
     {
-        // TODO: Implement navigation to MonkeyRatingPage in a Blazor-compatible way.
-        // The previous code referenced 'app', which does not exist in this context.
-        // You may need to use a NavigationManager or another service to navigate.
+        ((Application)app).Windows[0].Page!.Navigation.PushModalAsync(new MonkeyRatingPage());
     }
 }
