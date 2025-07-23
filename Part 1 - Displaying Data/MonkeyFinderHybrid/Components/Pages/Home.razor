@@ -1,14 +1,17 @@
 ﻿@page "/"
+@using Microsoft.Maui.Devices.Sensors
 @inject MonkeyService monkeyService
 @inject IDialogService DialogService
+@inject IGeolocation geolocation
 @inject NavigationManager NavManager
 
 <div>
-    <button class="button-yellow" @onclick="AddMonkey"> Add New Monkey</button>
+    <button class="button-yellow" @onclick="AddMonkey">Add New Monkey</button>
+    <button class="button-yellow" @onclick="FindMonkey">Find Closest Monkey</button>
 
     @if (_monkeys is null)
     {
-        <p>Loading monkeys...</p>
+        <p><em>Loading monkeys...</em></p>
     }
 
     else
@@ -28,44 +31,3 @@
     }
 </div>
 
-@code {
-    private List<Monkey> _monkeys = new();
-    private Monkey DialogData { get; set; } = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Load monkeys from MonkeyService
-        _monkeys = await monkeyService.GetMonkeys();
-    }
-
-    private async Task AddMonkey()
-    {
-        // MAUI Debug console
-        Debug.WriteLine("Add Monkey");
-
-
-        // Create a new instance of DialogData to allow the user to cancel the update
-        var data = new Monkey();
-        var dialog = await DialogService.ShowDialogAsync<SimpleCustomizedDialog>(data, new DialogParameters
-        {
-            Title = "Add New Monkey",
-            PreventDismissOnOverlayClick = true,
-            PreventScroll = true
-        });
-
-        var result = await dialog.Result;
-
-        if (!result.Cancelled && result.Data is not null)
-        {
-            DialogData = (Monkey)result.Data;
-            monkeyService.AddMonkey(DialogData);
-            _monkeys = await monkeyService.GetMonkeys();
-        }
-    }
-
-    private void GoToDetails(Monkey monkey)
-    {
-        // Navigate to the details page for the selected monkey
-        NavManager.NavigateTo($"details/{monkey.Name}");
-    }
-}
