@@ -4,6 +4,4 @@ https://montemagno.com/monkeys.json
 
 https://json2csharp.com/
 
-2:25:07
-
-Blazor has no alert. MAUI does.
+3:22:58 Nothing works!
