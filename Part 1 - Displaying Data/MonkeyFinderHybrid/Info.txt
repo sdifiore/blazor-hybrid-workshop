@@ -4,6 +4,6 @@ https://montemagno.com/monkeys.json
 
 https://json2csharp.com/
 
-2:03:26
+2:25:07
 
-Início XAML
+Blazor has no alert. MAUI does.
