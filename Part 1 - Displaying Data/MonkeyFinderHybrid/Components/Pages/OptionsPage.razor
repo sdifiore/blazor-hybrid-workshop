@@ -4,7 +4,14 @@
 <h3>Options</h3>
 
 <button class="button-yellow" @onclick="CheckInternet">Check Internet</button>
-<button class="button-yellow" @onclick="ChangeTheme">Change Theme</button>
+
+<FluentMenuButton Text="Select theme color" OnMenuChanged="HandleOnMenuChanged">
+    <FluentMenuItem Id="1">Light</FluentMenuItem>
+    <FluentMenuItem Id="2">Dark</FluentMenuItem>
+    <FluentMenuItem Id="0">System</FluentMenuItem>
+</FluentMenuButton>
+
+<p class="optionstheme">Selected Theme: @selectedTheme</p>
 
 @code {
     public async Task CheckInternet()
@@ -16,8 +23,38 @@
             $"Internet access: {hasInternet} of type {internetType}", "OK");
     }
 
-    private async Task ChangeTheme()
+    private string selectedTheme = string.Empty;
+
+    private async Task HandleOnMenuChanged(MenuChangeEventArgs args)
     {
-        await jSRuntime.InvokeVoidAsync("setTheme", "dark");
+        selectedTheme = args.Id ?? "0"; // Default to "System" if no ID is provided
+        Debug.WriteLine($"Selected theme: {selectedTheme}");
+        var selectedValue = args.Id;
+
+        if (selectedValue == "1")
+        {
+            await jSRuntime.InvokeVoidAsync("setTheme", "light");
+        }
+        else if (selectedValue == "2")
+        {
+            await jSRuntime.InvokeVoidAsync("setTheme", "dark");
+        }
+        else
+        {
+            AppTheme appTheme = ((Application)app).RequestedTheme;
+
+            if (appTheme == AppTheme.Light)
+            {
+                await jSRuntime.InvokeVoidAsync("setTheme", "light");
+            }
+            else if (appTheme == AppTheme.Dark)
+            {
+                await jSRuntime.InvokeVoidAsync("setTheme", "dark");
+            }
+            else
+            {
+                await jSRuntime.InvokeVoidAsync("setTheme", "system");
+            }
+        }
     }
 }
