@@ -1,8 +1,10 @@
 ﻿@page "/options"
+@inject IJSRuntime jSRuntime
 
 <h3>Options</h3>
 
 <button class="button-yellow" @onclick="CheckInternet">Check Internet</button>
+<button class="button-yellow" @onclick="ChangeTheme">Change Theme</button>
 
 @code {
     public async Task CheckInternet()
@@ -12,5 +14,10 @@
 
         await ((Application)app).Windows[0].Page!.DisplayAlert("Connectivity Status",
             $"Internet access: {hasInternet} of type {internetType}", "OK");
+    }
+
+    private async Task ChangeTheme()
+    {
+        await jSRuntime.InvokeVoidAsync("setTheme", "dark");
     }
 }
