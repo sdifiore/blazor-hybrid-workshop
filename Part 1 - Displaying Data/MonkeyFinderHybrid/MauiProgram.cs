@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+
+using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace MonkeyFinderHybrid;
@@ -13,13 +15,15 @@ public static class MauiProgram
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-            });
+            })
+            .UseMauiCommunityToolkit();
 
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddFluentUIComponents();
+
         builder.Services.AddSingleton<MonkeyService>();
-        builder.Services.AddSingleton<IMap>(sp => Map.Default);
         builder.Services.AddSingleton<IGeolocation>(sp => Geolocation.Default);
+        builder.Services.AddSingleton<IMap>(sp => Map.Default);
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

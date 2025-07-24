@@ -1,66 +1,16 @@
 ﻿@page "/options"
-@inject IJSRuntime JS
-@using Microsoft.FluentUI.AspNetCore.Components
 
 <h3>Options</h3>
 
 <button class="button-yellow" @onclick="CheckInternet">Check Internet</button>
-<FluentMenuButton Text="Select theme color" OnMenuChanged="HandleOnMenuChanged">
-    <FluentMenuItem Id="1">Light</FluentMenuItem>
-    <FluentMenuItem Id="2">Dark</FluentMenuItem>
-    <FluentMenuItem Id="0">System</FluentMenuItem>
-</FluentMenuButton>
-
-<p class="optionstheme"> Selected Theme: @selectedTheme</p>
-
-<FluentDesignTheme @bind-Mode="@Mode" CustomColor="#ffc107" StorageName="mytheme"/>
 
 @code {
-    public DesignThemeModes Modes { get; set; } = DesignThemeModes.Light;
-
     public async Task CheckInternet()
     {
         var hasInternet = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
         var internetType = Connectivity.Current.ConnectionProfiles.FirstOrDefault();
 
         await ((Application)app).Windows[0].Page!.DisplayAlert("Connectivity Status",
-            $"Internet access: {hasInternet} of type {internetType}", "Ok");
-        // As Razor won't show Alert, a MAUI one is used instead
-    }
-
-    private string selectedTheme = string.Empty;
-
-    public async Task HandleOnMenuChanged(MenuChangeEventArgs args)
-    {
-        selectedTheme = args.Id ?? "0"; // Default to "System" if no ID is provided
-        Debug.WriteLine($"Selected theme: {selectedTheme}");
-        var selctedValue = args.Id;
-
-        if (selctedValue == "1")
-        {
-            
-            await JS.InvokeVoidAsync("setTheme", "light");
-        }
-        else if (selctedValue == "2")
-        {
-            await JS.InvokeVoidAsync("setTheme", "dark");
-        }
-        else
-        {
-            AppTheme currentTheme = ((Application)app).RequestedTheme;
-
-            if (currentTheme == AppTheme.Light)
-            {
-                await JS.InvokeVoidAsync("setTheme", "light");
-            }
-            else if (currentTheme == AppTheme.Dark)
-            {
-                await JS.InvokeVoidAsync("setTheme", "dark");
-            }
-            else
-            {
-                await JS.InvokeVoidAsync("setTheme", "system");
-            }
-        }
+            $"Internet access: {hasInternet} of type {internetType}", "OK");
     }
 }

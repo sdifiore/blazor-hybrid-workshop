@@ -20,17 +20,20 @@
     </div>
 </div>
 
+
 @code {
 
     [Parameter]
     public string Name { get; set; } = string.Empty;
-    private Monkey monkey { get; set; } = new();
 
+    [Inject]
     private IMap? map { get; set; }
+
+    private Monkey monkey { get; set; } = new();
 
     protected override void OnInitialized()
     {
-        monkey = monkeyService.FindMonkeyByName(Name)!;
+        monkey = monkeyService.FindMonkeyByName(Name);
     }
 
     private void CloseWindow()
@@ -45,22 +48,24 @@
 
     private async Task OpenMap()
     {
+
         try
         {
             if (map is null)
-                throw new Exception("Map service is not available.");
+            {
+                throw new Exception("No map service available.");
+            }
 
             await map.OpenAsync(monkey.Latitude, monkey.Longitude, new MapLaunchOptions
             {
                 Name = monkey.Name,
                 NavigationMode = NavigationMode.None
-
             });
         }
-
         catch (Exception ex)
         {
-            await ((Application)app).Windows[0].Page!.DisplayAlert("Error!", ex.Message, "Ok");
+            Debug.WriteLine($"Unable to launch maps: {ex.Message}");
+            await ((Application)app).Windows[0].Page!.DisplayAlert("Error, no Maps app!", ex.Message, "OK");
         }
     }
 }

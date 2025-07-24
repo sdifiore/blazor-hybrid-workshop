@@ -11,7 +11,7 @@ public class MonkeyService
         httpClient = new HttpClient();
     }
 
-    List<Monkey> monkeyList = new();
+    List<Monkey> monkeyList = [];
 
     public async Task<List<Monkey>> GetMonkeys()
     {
@@ -21,10 +21,10 @@ public class MonkeyService
         }
 
         // Online
-        var response = await httpClient.GetAsync("https://www.montemagno.com/monkeys.json");
+        HttpResponseMessage response = await httpClient.GetAsync("https://www.montemagno.com/monkeys.json");
         if (response.IsSuccessStatusCode)
         {
-            var resultMonkeys = await response.Content.ReadFromJsonAsync(MonkeyContext.Default.ListMonkey);
+            List<Monkey>? resultMonkeys = await response.Content.ReadFromJsonAsync(MonkeyContext.Default.ListMonkey);
 
             if (resultMonkeys is not null)
             {
@@ -47,10 +47,15 @@ public class MonkeyService
         return monkeyList;
     }
 
-    public Monkey? FindMonkeyByName(string name)
+    public Monkey FindMonkeyByName(string name)
     {
-        var monkey = monkeyList.FirstOrDefault(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        Monkey? monkey = monkeyList.FirstOrDefault(m => m.Name == name);
 
-        return monkey is null ? throw new ArgumentNullException(nameof(name), "Monkey name cannot be null") : monkey;
+        if (monkey is null)
+        {
+            throw new Exception("Monkey not found");
+        }
+
+        return monkey;
     }
 }

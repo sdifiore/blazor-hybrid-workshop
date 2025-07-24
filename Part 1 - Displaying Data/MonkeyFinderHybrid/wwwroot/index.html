@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-  <link rel="icon" type="image/png" href="favicon.png" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>MonkeyFinderHybrid</title>
@@ -11,11 +10,10 @@
   <link id="dark-mode" rel="stylesheet" href="css/darkMode.css" disabled />
   <link id="light-mode" rel="stylesheet" href="css/app.css" />
   <link rel="stylesheet" href="MonkeyFinderHybrid.styles.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 
 <body>
-    <fluent-design-theme mode="light" primary-color="#ffc107" />
-
     <script>
         function setTheme(mode) {
             const lightMode = document.getElementById("light-mode");
@@ -33,14 +31,13 @@
 
     <div class="status-bar-safe-area"></div>
 
-    <div id="app">Loading...</div>
+    <div id="app">Loading in wwwroot...</div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-
 
     <!--<script app-name="MonkeyFinderHybrid" src="./_content/Microsoft.FluentUI.AspNetCore.Components/js/initializersLoader.webview.js"></script>-->
     <script src="_framework/blazor.webview.js" autostart="false"></script>
